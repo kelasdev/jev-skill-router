@@ -6,6 +6,7 @@ function rec(sessionID: string, at: number, excerpt = "req"): DiagnosticRecord {
     sessionID,
     requestExcerpt: excerpt,
     indexSize: 10,
+    suggested: null,
     candidatesBefore: 5,
     candidatesAfter: 3,
     jevCalled: true,

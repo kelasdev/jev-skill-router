@@ -291,6 +291,22 @@ candidates found, whether Jev was called, selected vs injected IDs, skipped
 skills with reasons (`unknown-id`, `path-escape`, `missing-file`,
 `over-budget`), timings, and the error on any failure.
 
+Per decision the shape is: `decision: "suggest" | "abstain"`,
+`suggested` (the one skill_id, or `null`), `gate` / `gateValues`,
+`shortlist`, `fits` (why it decided), and `suggestionBlock` (the exact
+`<jev-selected-skills>` text injected into the system prompt — present
+only when `decision === "suggest"`).
+
+### Payload guards
+
+The Jev request carries the raw user request and a Choice over the whole
+roster, which can exceed the selector model's context (observed:
+73k-char request + 50k-char criteria → `max_tokens_exceeded`). Three
+guards cap it: the request is tail-truncated to 4000 chars (the ask lives
+at the end; the head is boilerplate), every criterion to 200 chars, and
+HTTP error bodies are surfaced (first 500 chars) in `diagnostics.error`
+so a limit rejection is distinguishable from a plain HTTP error.
+
 ## Failure behavior (by design)
 
 - Jev timeout / invalid JSON / HTTP error → no injection, error recorded.

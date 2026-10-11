@@ -109,6 +109,7 @@ export async function runRouter(
     sessionID,
     requestExcerpt: request,
     indexSize: skills.length,
+    suggested: null,
   }
   const finish = (partial: Partial<DiagnosticRecord>): RunRouterResult => {
     state.lastInjectedHash = hash
@@ -170,6 +171,7 @@ export async function runRouter(
 
   const signals = {
     decision: decision.decision,
+    suggested: decision.suggested ?? null,
     gate: decision.gate,
     gateValues: decision.gateValues,
     shortlist: decision.shortlist,
@@ -239,6 +241,7 @@ export async function runRouter(
     skipped: loaded.skipped,
     injectedTokens: loaded.totalTokens,
     ...signals,
+    suggestionBlock: systemText,
     at: now(),
   }
   diagnostics.record(record)

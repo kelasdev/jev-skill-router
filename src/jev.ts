@@ -60,6 +60,13 @@ const INVERTED = new Set(["prose_suffices"])
 
 const NONE_OPTION = "none"
 
+// Payload guards: a Jev Choice over the whole roster plus the raw user
+// request can exceed the selector model's context (observed:
+// 73k-char request + 50k-char criteria → max_tokens_exceeded). The tail
+// of the request holds the actual ask; heads are usually boilerplate.
+const REQUEST_CHARS = 4000
+const CRITERION_CHARS = 200
+
 export interface RosterEntry {
   skillId: string
   name: string
@@ -87,7 +94,13 @@ export function makeCallJev(config: RouterConfig): CallJev {
       body: JSON.stringify({ model: jev.model, ...document }),
     })
     if (!response.ok) {
-      throw new Error(`Jev endpoint returned HTTP ${response.status}`)
+      let detail = ""
+      try {
+        detail = `: ${(await response.text()).slice(0, 500)}`
+      } catch {
+        // ignore body read errors
+      }
+      throw new Error(`Jev endpoint returned HTTP ${response.status}${detail}`)
     }
     return (await response.json()) as Record<string, unknown>
   }
@@ -128,7 +141,7 @@ export async function selectSkills(input: {
   const call = input.callJev ?? makeCallJev(config)
   const { gateThreshold, fitsThreshold, shortlist: shortlistSize, excerptChars } =
     config.jev
-  const state = { request, recent_context: "" }
+  const state = { request: request.slice(-REQUEST_CHARS), recent_context: "" }
   const ids = roster.map((r) => r.skillId)
   const byId = new Map(roster.map((r) => [r.skillId, r]))
 
@@ -148,7 +161,7 @@ export async function selectSkills(input: {
       type: "choice",
       instructions: CHOICE_INSTRUCTIONS,
       criteria: Object.fromEntries(
-        roster.map((r) => [r.skillId, r.description || r.name]),
+        roster.map((r) => [r.skillId, (r.description || r.name).slice(0, CRITERION_CHARS)]),
       ),
     },
   }
@@ -202,7 +215,7 @@ export async function selectSkills(input: {
       criteria: Object.fromEntries(
         shortlist.map((id, i) => [
           id,
-          `${byId.get(id)!.description} — ${bodies[i].slice(0, excerptChars)}`,
+          `${byId.get(id)!.description.slice(0, CRITERION_CHARS)} — ${bodies[i].slice(0, excerptChars)}`,
         ]),
       ),
     },
@@ -212,7 +225,7 @@ export async function selectSkills(input: {
       type: "noul",
       instructions:
         `Does the skill '${byId.get(id)!.name}' do the specific thing the user's request ` +
-        `asks for? It is described as: ${byId.get(id)!.description}`,
+        `asks for? It is described as: ${byId.get(id)!.description.slice(0, CRITERION_CHARS)}`,
     }
   }
   const resp2 = await call({ state, questions: questions2 })

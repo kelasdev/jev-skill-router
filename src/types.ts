@@ -82,6 +82,10 @@ export interface DiagnosticRecord {
   skipped: { skillId: string; reason: string }[]
   injectedTokens: number
   decision?: "suggest" | "abstain"
+  /** The ONE suggested skill_id, or null on abstain / error. */
+  suggested: string | null
+  /** The rendered <jev-selected-skills> block; present only on suggest. */
+  suggestionBlock?: string
   gate?: number
   gateValues?: Record<string, number>
   shortlist?: string[]
