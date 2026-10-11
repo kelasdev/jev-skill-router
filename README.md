@@ -248,7 +248,12 @@ The defaults above match the live capture gateway (`http://127.0.0.1:9999`,
 (one-line re-export of `src/index.ts`) is the entrypoint OpenCode resolves
 when `package` points at this directory — do not delete it. After any plugin
 code change run `opencode service restart` — plugins load in the background
-service.
+service. Verify with `opencode plugin list` — a working install shows:
+
+```text
+ID                VERSION  SOURCE
+jev-skill-router  local    <abs path>/jev-skill-router/index.ts
+```
 
 ## Configuration
 
