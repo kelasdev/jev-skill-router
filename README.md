@@ -228,7 +228,7 @@ The plugin ships as a local package. In your project's `opencode.json(c)`:
 {
   "plugins": [
     {
-      "package": "<abs path>/jev-skill-router",
+      "package": "file:///<abs path>/jev-skill-router",
       "options": {
         "jev": {
           "baseUrl": "http://127.0.0.1:9999",
