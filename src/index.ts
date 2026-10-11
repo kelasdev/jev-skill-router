@@ -29,6 +29,7 @@ export default Plugin.define({
     const skillDirs = [
       { dir: path.join(projectDir, ".opencode", "skills"), source: "project" as const },
       { dir: path.join(os.homedir(), ".config", "opencode", "skills"), source: "global" as const },
+      { dir: path.join(os.homedir(), ".agents", "skills"), source: "global" as const },
     ]
     const allowedRoots = skillDirs.map((d) => d.dir)
     const indexFile = path.join(

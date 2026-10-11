@@ -276,7 +276,8 @@ cookbook defaults, pending calibration on real traffic; `jev.baseUrl`,
 | `jev.excerptChars` | `700` | SKILL.md excerpt sent per shortlisted candidate |
 
 Skill directories scanned: `<project>/.opencode/skills/**/SKILL.md` (source
-`project:`) and `~/.config/opencode/skills/**/SKILL.md` (source `global:`).
+`project:`), `~/.config/opencode/skills/**/SKILL.md` (source `global:`),
+and `~/.agents/skills/**/SKILL.md` (source `global:`).
 `skill_id` is `"<source>:<name>"`, so equal names never collide. Invariant:
 project beats global **only as a tie-breaker on identical retrieval scores**;
 when scores differ, both candidates are visible to Jev and it picks on
