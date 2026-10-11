@@ -32,4 +32,12 @@ export class Diagnostics {
   recent(limit: number): DiagnosticRecord[] {
     return this.records.slice(-limit).reverse()
   }
+
+  recentForSession(sessionID: string, limit: number): DiagnosticRecord[] {
+    const out: DiagnosticRecord[] = []
+    for (let i = this.records.length - 1; i >= 0 && out.length < limit; i--) {
+      if (this.records[i].sessionID === sessionID) out.push(this.records[i])
+    }
+    return out
+  }
 }

@@ -59,9 +59,7 @@ export interface RouterConfig {
   maxCandidates: number
   timeoutMs: number
   maxTotalTokens: number
-  injectOnError: boolean
   refreshOnStart: boolean
-  watchFiles: boolean
   diagnosticsEnabled: boolean
   jev: JevConfig
 }

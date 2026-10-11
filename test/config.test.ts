@@ -10,7 +10,6 @@ describe("resolveConfig", () => {
     expect(cfg.maxCandidates).toBe(200)
     expect(cfg.timeoutMs).toBe(5000)
     expect(cfg.maxTotalTokens).toBe(4000)
-    expect(cfg.injectOnError).toBe(false)
     expect(cfg.refreshOnStart).toBe(true)
     expect(cfg.diagnosticsEnabled).toBe(true)
     expect(cfg.jev.baseUrl).toBe("http://127.0.0.1:9999")
@@ -24,10 +23,8 @@ describe("resolveConfig", () => {
   it("applies partial overrides and keeps other defaults", () => {
     const cfg = resolveConfig({
       ...minimal,
-      injectOnError: true,
       jev: { baseUrl: "http://127.0.0.1:9999", gateThreshold: 0.5 },
     })
-    expect(cfg.injectOnError).toBe(true)
     expect(cfg.jev.gateThreshold).toBe(0.5)
     expect(cfg.jev.fitsThreshold).toBe(0.3)
     expect(cfg.maxCandidates).toBe(200)

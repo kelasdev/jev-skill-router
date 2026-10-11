@@ -8,9 +8,7 @@ const DEFAULTS = {
   maxCandidates: 200,
   timeoutMs: 5000,
   maxTotalTokens: 4000,
-  injectOnError: false,
   refreshOnStart: true,
-  watchFiles: false,
   diagnosticsEnabled: true,
 }
 
@@ -49,9 +47,7 @@ export function resolveConfig(options: unknown): RouterConfig {
     maxCandidates: positiveInt(raw.maxCandidates, DEFAULTS.maxCandidates),
     timeoutMs: positiveInt(raw.timeoutMs, DEFAULTS.timeoutMs),
     maxTotalTokens: positiveInt(raw.maxTotalTokens, DEFAULTS.maxTotalTokens),
-    injectOnError: bool(raw.injectOnError, DEFAULTS.injectOnError),
     refreshOnStart: bool(raw.refreshOnStart, DEFAULTS.refreshOnStart),
-    watchFiles: bool(raw.watchFiles, DEFAULTS.watchFiles),
     diagnosticsEnabled: bool(raw.diagnosticsEnabled, DEFAULTS.diagnosticsEnabled),
     jev: {
       baseUrl: jev.baseUrl as string,

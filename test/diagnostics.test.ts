@@ -59,4 +59,14 @@ describe("Diagnostics", () => {
     d.record(rec("A", 1))
     expect(d.recent(5)).toHaveLength(1)
   })
+
+  it("returns only the calling session's records", () => {
+    const d = new Diagnostics()
+    d.record(rec("A", 1))
+    d.record(rec("B", 2))
+    d.record(rec("A", 3))
+    expect(d.recentForSession("A", 5).map((r) => r.at)).toEqual([3, 1])
+    expect(d.recentForSession("B", 5).map((r) => r.at)).toEqual([2])
+    expect(d.recentForSession("nope", 5)).toEqual([])
+  })
 })

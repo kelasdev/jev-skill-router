@@ -81,10 +81,14 @@ export default Plugin.define({
         editor.add({
           name: "jev_router_last_injected",
           description:
-            "Show the last Jev Skill Router decisions: candidates, selection, injection, errors.",
+            "Show the last Jev Skill Router decisions for the current session: candidates, selection, injection, errors.",
           input: { type: "object", properties: {}, additionalProperties: false },
-          execute: async () => ({
-            content: JSON.stringify(diagnostics.recent(5), null, 2),
+          execute: async (_input, context) => ({
+            content: JSON.stringify(
+              diagnostics.recentForSession(context?.sessionID ?? "", 5),
+              null,
+              2,
+            ),
           }),
         })
       })

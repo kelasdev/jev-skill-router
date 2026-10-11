@@ -267,7 +267,6 @@ cookbook defaults, pending calibration on real traffic; `jev.baseUrl`,
 | `maxCandidates` | `200` | Roster cap (Jev Choice limit is 255); BM25 trims only above it |
 | `timeoutMs` | `5000` | Per-call Jev timeout |
 | `maxTotalTokens` | `4000` | Injection budget (1 token ≈ 4 chars, estimated) |
-| `injectOnError` | `false` | Fail-safe: never inject on selector errors |
 | `refreshOnStart` | `true` | Rebuild the index at plugin setup |
 | `diagnosticsEnabled` | `true` | Register the `jev_router_last_injected` tool |
 | `jev.model` | `oc/jev-1.13-free` | Decisions model id sent to `/v1/systemone` |
@@ -285,7 +284,8 @@ metadata alone.
 
 ## Diagnostics
 
-Tool `jev_router_last_injected` returns the 5 most recent decisions:
+Tool `jev_router_last_injected` returns the 5 most recent decisions
+**for the calling session only** (filtered by `sessionID`):
 candidates found, whether Jev was called, selected vs injected IDs, skipped
 skills with reasons (`unknown-id`, `path-escape`, `missing-file`,
 `over-budget`), timings, and the error on any failure.
@@ -329,10 +329,12 @@ is always derived from `SKILL.md` sources and never the other way around.
 
 - Lexical BM25 only — synonym-heavy phrasing (ID↔EN paraphrase) relies on
   shared tokens; a vector stage is deferred until benchmarks prove need.
-- Index refresh is incremental: on restart it walks the skill dirs and only
-  re-reads files whose mtime changed — unchanged entries are reused verbatim
-  from `index-*.json`, so a 10k-skill catalog costs readdir+stat per file,
-  not a full parse of every SKILL.md. No file watcher; changes are picked up
+- Index refresh: `refreshOnStart: true` (default) always does a full
+  re-scan of the skill dirs at plugin setup. Incremental reuse (walk the
+  dirs, re-read only files whose mtime changed, reuse unchanged entries
+  verbatim from `index-*.json`) applies only when `refreshOnStart: false`.
+  A 10k-skill catalog then costs readdir+stat per file, not a full parse
+  of every SKILL.md. No file watcher; changes are picked up
   on plugin restart or next `refreshOnStart`. Selection results are not cached
   across turns — the dedupe key covers repeats within a turn only.
 - Token counts are a `chars/4` estimate, not a real tokenizer.
