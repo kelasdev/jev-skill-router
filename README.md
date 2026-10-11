@@ -244,8 +244,10 @@ The plugin ships as a local package. In your project's `opencode.json(c)`:
 `baseUrl` must expose `POST /v1/systemone` (TypeSafe Decisions protocol).
 The defaults above match the live capture gateway (`http://127.0.0.1:9999`,
 `Bearer test`, `oc/jev-1.13-free`) — inspect every request and response in
-`monitor.html` (open it before the first request). After any plugin code
-change run `opencode service restart` — plugins load in the background
+`monitor.html` (open it before the first request). The root `index.ts`
+(one-line re-export of `src/index.ts`) is the entrypoint OpenCode resolves
+when `package` points at this directory — do not delete it. After any plugin
+code change run `opencode service restart` — plugins load in the background
 service.
 
 ## Configuration
