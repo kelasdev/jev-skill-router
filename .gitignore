@@ -1,0 +1,12 @@
+node_modules/
+dist/
+coverage/
+*.log
+.env
+.env.*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+# Local runtime index (derived from SKILL.md sources, rebuilt on start)
+*.jev-skill-router-index.json

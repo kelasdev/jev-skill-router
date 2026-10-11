@@ -1,0 +1,22 @@
+{
+  "name": "jev-skill-router",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "OpenCode plugin: Jev decision model picks at most one SKILL.md (two gated /v1/systemone calls) to inject into the system prompt",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "bench": "vite-node bench/run.ts"
+  },
+  "dependencies": {
+    "@opencode/plugin": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.6.0",
+    "vitest": "^3.0.0"
+  }
+}

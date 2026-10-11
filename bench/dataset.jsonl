@@ -1,0 +1,30 @@
+{"id":"d01","request":"Analisis keamanan kode ini","relevant":["project:security-audit"]}
+{"id":"d02","request":"review my python script for bugs","relevant":["project:code-review"]}
+{"id":"d03","request":"ada XSS di form login saya","relevant":["project:xss-testing"]}
+{"id":"d04","request":"endpoint saya bisa akses metadata internal","relevant":["project:ssrf-testing"]}
+{"id":"d05","request":"test the REST API auth flow","relevant":["project:api-testing"]}
+{"id":"d06","request":"aplikasi saya lambat banget","relevant":["project:performance"]}
+{"id":"d07","request":"buatkan README untuk project ini","relevant":["project:docs-writing"]}
+{"id":"d08","request":"cara resolve conflict di git","relevant":["project:git-workflow"]}
+{"id":"d09","request":"deploy ke production pakai docker","relevant":["project:deployment"]}
+{"id":"d10","request":"optimasi query yang lambat","relevant":["project:database"]}
+{"id":"d11","request":"hi","relevant":[]}
+{"id":"d12","request":"terima kasih","relevant":[]}
+{"id":"d13","request":"apa cuaca hari ini","relevant":[]}
+{"id":"d14","request":"halo","relevant":[]}
+{"id":"d15","request":"ok","relevant":[]}
+{"id":"d16","request":"lakukan security audit dan code review sekaligus","relevant":["project:security-audit","project:code-review"]}
+{"id":"d17","request":"uji keamanan API dan XSS pada web saya","relevant":["project:api-testing","project:xss-testing"]}
+{"id":"d18","request":"review kode ini sekalian cek kerentanan keamanan","relevant":["project:code-review","project:security-audit"]}
+{"id":"d19","request":"kenapa git saya conflict terus","relevant":["project:git-workflow"]}
+{"id":"d20","request":"migration skema ke production aman nggak","relevant":["project:database"]}
+{"id":"d21","request":"loading lambat saat buka dashboard","relevant":["project:performance"]}
+{"id":"d22","request":"dokumentasi API belum ada tolong dibuatkan","relevant":["project:docs-writing"]}
+{"id":"d23","request":"ada SSRF di webhook handler","relevant":["project:ssrf-testing"]}
+{"id":"d24","request":"authorization check di API admin lemah","relevant":["project:api-testing"]}
+{"id":"d25","request":"buat branch baru dari main","relevant":["project:git-workflow"]}
+{"id":"d26","request":"rollback deployment yang gagal","relevant":["project:deployment"]}
+{"id":"d27","request":"tambah index di table users","relevant":["project:database"]}
+{"id":"d28","request":"cross site scripting pada comment section","relevant":["project:xss-testing"]}
+{"id":"d29","request":"there is a bug in the utility function","relevant":["project:code-review"]}
+{"id":"d30","request":"kerentanan SQL injection di form cari","relevant":["project:security-audit"]}
