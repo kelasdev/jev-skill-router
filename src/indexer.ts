@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto"
-import { readFile, readdir, stat, writeFile } from "node:fs/promises"
+import { mkdir, readFile, readdir, stat, writeFile } from "node:fs/promises"
 import path from "node:path"
 import { parseFrontmatter } from "./frontmatter.js"
 import type { SkillMeta, SkillSource } from "./types.js"
@@ -93,6 +93,9 @@ export async function loadIndex(file: string): Promise<SkillMeta[] | undefined> 
 }
 
 export async function saveIndex(file: string, skills: SkillMeta[]): Promise<void> {
+  // The index is stored outside the project (e.g. ~/.jev-skill-router/), which
+  // does not exist on a first run. writeFile alone would throw ENOENT there.
+  await mkdir(path.dirname(file), { recursive: true })
   await writeFile(file, JSON.stringify(skills), "utf8")
 }
 

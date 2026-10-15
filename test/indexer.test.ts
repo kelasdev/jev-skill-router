@@ -93,6 +93,16 @@ describe("index persistence", () => {
   it("loadIndex returns undefined on missing file", async () => {
     expect(await loadIndex(path.join(dir, "missing.json"))).toBeUndefined()
   })
+
+  it("creates the parent directory when saving into a fresh path", async () => {
+    // Regression: the production index lives at
+    // ~/.jev-skill-router/index-<hash>.json, a directory that does not exist on
+    // a first run. saveIndex must create it instead of throwing ENOENT.
+    const skills = await scanSkills([{ dir: skillsA, source: "project" }])
+    const file = path.join(dir, "fresh", "index.json")
+    await saveIndex(file, skills)
+    expect(await loadIndex(file)).toEqual(skills)
+  })
 })
 
 describe("refreshIndex", () => {
@@ -105,6 +115,19 @@ describe("refreshIndex", () => {
     )
     expect(rebuilt).toBe(true)
     expect(skills).toHaveLength(3)
+    expect(await loadIndex(file)).toEqual(skills)
+  })
+
+  it("persists a rebuilt index into a directory that does not exist yet", async () => {
+    // Same regression at the refreshIndex seam: the caller only sees a warn
+    // and silently loses persistence unless saveIndex bootstraps the dir.
+    const file = path.join(dir, "fresh", "index.json")
+    const { skills, rebuilt } = await refreshIndex(
+      file,
+      [{ dir: skillsA, source: "project" }],
+      { refreshOnStart: false },
+    )
+    expect(rebuilt).toBe(true)
     expect(await loadIndex(file)).toEqual(skills)
   })
 
